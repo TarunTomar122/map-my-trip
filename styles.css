@@ -1,0 +1,474 @@
+/* Custom styles for Almaty Trip Planner */
+
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Map container styling */
+#map {
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+    background: #f8fafc;
+}
+
+/* Home button on map */
+#go-home, #toggle-locations, #toggle-restaurants {
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#go-home:hover, #toggle-locations:hover, #toggle-restaurants:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Toggle locations button styling */
+#toggle-locations {
+    margin-left: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    gap: 5px;
+}
+
+#toggle-locations svg {
+    color: #9333ea;
+}
+
+/* Restaurant button styling */
+#toggle-restaurants {
+    margin-left: 4rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    gap: 5px;
+}
+
+#toggle-restaurants svg {
+    color: #dc2626;
+}
+
+/* Home base icon styling */
+.home-icon {
+    background: none;
+    border: none;
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s;
+}
+
+.home-icon:hover {
+    transform: scale(1.3);
+    filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* Place marker styling */
+.custom-place-icon {
+    background: none;
+    border: none;
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.4));
+    transition: transform 0.2s ease-in-out;
+    background: transparent !important;
+}
+
+.custom-place-icon:hover {
+    transform: scale(1.3);
+    filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.6));
+}
+
+/* New place icons with SVG markers */
+.new-place-icon {
+    filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    width: 38px !important;
+    height: 38px !important;
+    background: transparent !important;
+}
+
+.new-place-icon:hover {
+    transform: scale(1.3);
+    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* Tooltip styling */
+.place-tooltip {
+    background: white;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+
+.place-tooltip::before {
+    border-top-color: white;
+}
+
+/* Custom popup styling */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.leaflet-popup-content {
+    margin: 10px;
+}
+
+.popup-content {
+    min-width: 200px;
+}
+
+.popup-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.popup-note {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+}
+
+.popup-more-btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.popup-more-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Route line styling */
+.route-line {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+    stroke-dasharray: 5, 8;
+    animation: dash 20s linear infinite;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+/* Sidebar styles */
+.place-sidebar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+}
+
+.place-sidebar.hidden {
+    transform: translateX(100%);
+}
+
+.place-sidebar.visible {
+    transform: translateX(0);
+}
+
+.place-sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+.place-sidebar-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #2c3e50;
+    line-height: 1.2;
+}
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-sidebar-btn:hover {
+    color: #333;
+}
+
+.place-sidebar-content {
+    padding: 0 20px 20px;
+}
+
+.place-sidebar-section {
+    margin-top: 20px;
+}
+
+.place-sidebar-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.place-sidebar-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4b5563;
+    margin: 0;
+}
+
+.place-sidebar-section .sidebar-bullets {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.place-sidebar-section .sidebar-bullets li {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #4b5563;
+}
+
+.place-sidebar-section .sidebar-bullets li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5em;
+    color: #6366f1;
+    font-weight: bold;
+}
+
+/* Specific place types styling */
+#sidebar-place-name[data-type="restaurant"] {
+    color: #e53e3e;
+}
+
+.place-sidebar-section h3[data-type="restaurant-what-to-eat"],
+.place-sidebar-section h3[data-type="restaurant-why-go"],
+.place-sidebar-section h3[data-type="restaurant-menu"],
+.place-sidebar-section h3[data-type="restaurant-expenses"] {
+    color: #e53e3e;
+}
+
+/* Bullet point styling */
+.sidebar-bullets {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.sidebar-bullets li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Image loading indicator */
+.image-loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background-color: #f9fafb;
+    color: #6b7280;
+    font-size: 14px;
+    border-radius: 8px;
+    position: relative;
+    grid-column: span 2;
+}
+
+.image-loading-indicator::after {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 30px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.place-sidebar-images {
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.place-sidebar-images img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.place-sidebar-images img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+/* Adjust for single image */
+.place-sidebar-images img:only-child {
+    grid-column: span 2;
+    max-height: 300px;
+}
+
+/* Leaflet attribution fixes */
+.leaflet-control-attribution {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+}
+
+/* Restaurant icon styling */
+.restaurant-icon {
+    border-radius: 0;
+    border: none;
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s;
+}
+
+.restaurant-icon:hover {
+    transform: scale(1.3);
+    filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* Clean up the map controls */
+.leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.leaflet-control-zoom a {
+    background: white !important;
+    color: #374151 !important;
+    border: none !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: #f3f4f6 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .place-sidebar {
+        width: 100%;
+    }
+}
+
+/* Fullscreen image viewer */
+.fullscreen-image-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.fullscreen-image-viewer.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.fullscreen-image-viewer img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.fullscreen-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 2001;
+}
+
+.fullscreen-close-btn:hover {
+    color: #f87171;
+}
+
+/* Leaflet marker customization */
+.custom-marker {
+    background-color: transparent;
+    border: none;
+}
+
+.custom-marker-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.marker-label {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+    font-weight: 500;
+} 
