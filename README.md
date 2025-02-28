@@ -1,4 +1,4 @@
-# quick-trip-planner
+# map-my-trip
 
 <img width="1651" alt="Screenshot 2025-02-28 at 6 13 58 PM" src="https://github.com/user-attachments/assets/1e1c39c4-0fbc-4d19-a7dc-423f46475e65" />
 
