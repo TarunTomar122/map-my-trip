@@ -1,64 +1,113 @@
-import { categories } from '../config/cityData.js';
+/**
+ * Map utility functions for the trip planner application
+ */
 
-// Create SVG icon for any category
-export function createIcon(color, category, options = {}) {
-    const { size = 32, className = 'custom-place-icon' } = options;
-    const svgPath = categories[category]?.icon || categories.default.icon;
+/**
+ * Create a custom icon for map markers
+ * @param {string} color - The color of the marker
+ * @param {string} type - The type of marker (place, restaurant, home)
+ * @param {Object} options - Additional options
+ * @returns {L.DivIcon} - A Leaflet div icon
+ */
+export function createIcon(color, type = 'default', options = {}) {
+    const size = options.size || 24;
+    const className = options.className || 'custom-marker';
+    
+    // Different styles based on marker type
+    let style = '';
+    if (type === 'home' || type === 'homebase') {
+        style = `background-color: ${color}; border: 3px solid white;`;
+    } else if (type === 'restaurant') {
+        style = `background-color: ${color}; border-radius: 50%; border: 2px solid white;`;
+    } else {
+        // Default for places
+        style = `background-color: ${color}; border-radius: 4px; border: 2px solid white;`;
+    }
     
     return L.divIcon({
         className: className,
-        html: `<svg viewBox="0 0 24 24" width="${size}" height="${size}" style="filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));">
-                <path fill="${color}" d="${svgPath}"/>
-              </svg>`,
+        html: `<div style="${style}"></div>`,
         iconSize: [size, size],
-        iconAnchor: [size/2, size/2]
+        iconAnchor: [size/2, size],
+        popupAnchor: [0, -size]
     });
 }
 
-// Calculate distance between two points using Haversine formula
-export function calculateDistance(point1, point2) {
-    const R = 6371; // Earth's radius in km
-    const dLat = (point2.lat - point1.lat) * Math.PI / 180;
-    const dLon = (point2.lng - point1.lng) * Math.PI / 180;
+/**
+ * Calculate the distance between two points in kilometers
+ * @param {number} lat1 - Latitude of the first point
+ * @param {number} lng1 - Longitude of the first point
+ * @param {number} lat2 - Latitude of the second point
+ * @param {number} lng2 - Longitude of the second point
+ * @returns {number} - Distance in kilometers
+ */
+export function calculateDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLng = deg2rad(lng2 - lng1);
     const a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(point1.lat * Math.PI / 180) * Math.cos(point2.lat * Math.PI / 180) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in km
+    return distance;
 }
 
-// Create a route line between two points
-export function createRouteLine(start, end, color) {
-    return L.polyline([
-        [start.lat, start.lng],
-        [end.lat, end.lng]
-    ], {
+/**
+ * Convert degrees to radians
+ * @param {number} deg - Degrees
+ * @returns {number} - Radians
+ */
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
+/**
+ * Create a route line between two points
+ * @param {L.Map} map - The Leaflet map instance
+ * @param {Array} startPoint - [lat, lng] of the start point
+ * @param {Array} endPoint - [lat, lng] of the end point
+ * @param {string} color - The color of the line
+ * @returns {L.Polyline} - The created polyline
+ */
+export function createRouteLine(map, startPoint, endPoint, color = '#4a6fa5') {
+    const line = L.polyline([startPoint, endPoint], {
         color: color,
         weight: 3,
         opacity: 0.7,
-        className: 'route-line'
+        dashArray: '5, 10'
+    }).addTo(map);
+    
+    return line;
+}
+
+/**
+ * Find nearby points of interest
+ * @param {Array} places - Array of places
+ * @param {number} lat - Latitude of the center point
+ * @param {number} lng - Longitude of the center point
+ * @param {number} radius - Radius in kilometers
+ * @returns {Array} - Array of nearby places
+ */
+export function findNearbyPOIs(places, lat, lng, radius = 1) {
+    return places.filter(place => {
+        const distance = calculateDistance(lat, lng, place.lat, place.lng);
+        return distance <= radius;
     });
 }
 
-// Find nearby points of interest
-export function findNearbyPOIs(point, poiList, maxDistance = 1.5, maxCount = 3) {
-    return poiList
-        .map(poi => ({
-            ...poi,
-            distance: calculateDistance(point, poi)
-        }))
-        .filter(poi => poi.distance <= maxDistance)
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, maxCount);
-}
-
-// Create a tooltip for a marker
-export function createTooltip(title, options = {}) {
-    return L.tooltip({
-        permanent: false,
-        direction: 'top',
-        className: 'place-tooltip',
-        ...options
-    }).setContent(title);
+/**
+ * Create a tooltip for a marker
+ * @param {string} title - The title of the tooltip
+ * @param {string} content - The content of the tooltip
+ * @returns {string} - HTML content for the tooltip
+ */
+export function createTooltip(title, content) {
+    return `
+        <div class="custom-tooltip">
+            <h3>${title}</h3>
+            <p>${content}</p>
+        </div>
+    `;
 } 
