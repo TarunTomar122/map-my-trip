@@ -118,7 +118,7 @@ function initializePlaces() {
     
     // Initialize restaurants if they should be visible
     if (restaurantsVisible) {
-        restaurants.forEach(restaurant => {
+        travelData.restaurants.forEach(restaurant => {
             // Safely handle restaurant type
             let restaurantType = 'default';
             if (restaurant.type && restaurant.type.includes('.')) {
@@ -279,7 +279,7 @@ function clearNearbyRestaurantMarkers() {
 
 // Toggle all restaurants visibility
 function toggleRestaurants() {
-    console.log('toggleRestaurants called');
+    console.log('toggleRestaurants called', restaurants, travelData,);
     restaurantsVisible = !restaurantsVisible;
     
     // Update button state
@@ -296,7 +296,7 @@ function toggleRestaurants() {
         restaurantMarkers = [];
         
         // Add fresh markers
-        restaurants.forEach(restaurant => {
+        travelData.restaurants.forEach(restaurant => {
             // Safely handle restaurant type
             let restaurantType = 'default';
             if (restaurant.type && restaurant.type.includes('.')) {

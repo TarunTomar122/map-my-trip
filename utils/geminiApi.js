@@ -149,11 +149,10 @@ function createPrompt(cityName, numDays, additionalInfo) {
         }
       ]
     }
-    
+
     IMPORTANT: 
     1. Provide ONLY the JavaScript object, with no additional text before or after.
     2. Use accurate latitude and longitude coordinates for the city center and all places.
-    3. Include at least 5 places to visit and 5 restaurants/cafes.
     4. Ensure all IDs are unique strings.
     5. Make sure all text fields have detailed, helpful information.
     6. Format the "howToReach", "whatToExpect", "thingsToBeAwareOf", "whatToEat", "whyGoThere", and "bestDishes" fields as arrays of bullet points (3-5 points each).
@@ -162,8 +161,7 @@ function createPrompt(cityName, numDays, additionalInfo) {
     9. The homebase should be in a central location or near popular hotels.
     10. Consider the weather and seasonlity if provided in the additional info.
     11. Make sure you are considering the number of days the trip is for and accordingly adjust the places and restaurants/cafes. 
-    12. Make sure you some of the off the beaten path places to visit even if they are a bit far from the homebase.
-    13. Don't shy away from including too many places to visit. It's better to suggest more places than less. So if you think there are 10 places to visit, include at least 10.
+    12. Make sure you add some of the off the beaten path places to visit even if they are a bit far from the homebase if the user has more days.
     `;
 }
 
